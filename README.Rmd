@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 > Spreadsheets are dangerous.  Wear goggles.
 
-> `Goggles` help(s) you spot spreadsheet anomolies in the wild.
+> `Goggles` help(s) you spot spreadsheet anomalies in the wild.
 
 Spreadsheets are notoriously helpful in converting numbers to dates.  Humans are
 notoriously unhelpful in overwriting formulas with literals.  With goggles, you

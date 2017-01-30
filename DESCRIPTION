@@ -1,8 +1,8 @@
 Package: goggles
-Title: Inspect spreadsheets for anomolies
+Title: Inspect spreadsheets for anomalies
 Version: 0.0.0.9000
 Authors@R: person("Duncan", "Garmonsway", email = "duncan.garmonsway@gmail.com", role = c("aut", "cre"))
-Description: Utility functions for inspecting and visualising anomolies in data
+Description: Utility functions for inspecting and visualising anomalies in data
     derived from spreadsheets.  For example, values mistakenly stored as dates,
     numbers stored as text, and formulas overwritten by literal values.
 Depends: R (>= 3.3.2)
