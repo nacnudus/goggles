@@ -2,6 +2,8 @@
 goggles
 =======
 
+[![Travis-CI Build Status](https://travis-ci.org/nacnudus/goggles.svg?branch=master)](https://travis-ci.org/nacnudus/goggles) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/nacnudus/goggles?branch=master&svg=true)](https://ci.appveyor.com/project/nacnudus/goggles) ![Cran Status](http://www.r-pkg.org/badges/version/goggles)
+
 > Spreadsheets are dangerous. Wear goggles.
 
 > `Goggles` help(s) you spot spreadsheet anomalies in the wild.
