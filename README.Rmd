@@ -1,0 +1,30 @@
+---
+output:
+  md_document:
+    variant: markdown_github
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+# goggles
+
+> Spreadsheets are dangerous.  Wear goggles.
+
+> `Goggles` help(s) you spot spreadsheet anomolies in the wild.
+
+Spreadsheets are notoriously helpful in converting numbers to dates.  Humans are
+notoriously unhelpful in overwriting formulas with literals.  With goggles, you
+can quickly visualise possible errors.
+
+This is basically a thin wrapper around
+[`tidyxl`](https://github.com/nacnudus/tidyxl) and
+[`unpivotr`](https://github.com/nacnudus/unpivotr) that plots cells in their
+positions and colours them by some property, e.g. number format.
