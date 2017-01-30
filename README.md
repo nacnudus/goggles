@@ -15,6 +15,15 @@ This is basically a thin wrapper around [`tidyxl`](https://github.com/nacnudus/t
 ``` r
 library(tidyxl)
 library(tidyverse)
+#> Loading tidyverse: ggplot2
+#> Loading tidyverse: tibble
+#> Loading tidyverse: tidyr
+#> Loading tidyverse: readr
+#> Loading tidyverse: purrr
+#> Loading tidyverse: dplyr
+#> Conflicts with tidy packages ----------------------------------------------
+#> filter(): dplyr, stats
+#> lag():    dplyr, stats
 
 x <- tidy_xlsx(system.file("extdata/road-policing-driver-offence-data-jan2009-sep2006.xlsx",
                            package = "nzpullover"))
@@ -22,12 +31,24 @@ x <- tidy_xlsx(system.file("extdata/road-policing-driver-offence-data-jan2009-se
 redlight <- x$data[["Red Light"]]
 redlight$numFmt <- x$formats$local$numFmt[redlight$local_format_id]
 
-ggplot(redlight, aes(col, row,
-           colour = numFmt,
+ggplot(x$data[[4]], aes(col, row,
+           fill = data_type,
            alpha = is.na(content))) +
-geom_point() +
+geom_tile() +
 scale_y_reverse() +
-scale_alpha_manual(values = c(1, .5))
+scale_alpha_manual(values = c(1, .5)) +
+  theme(legend.position = "bottom")
+
+numFmts <- x$formats$local$numFmt
+x$data[[4]] %>%
+  mutate(numFmt = numFmts[local_format_id]) %>%
+  ggplot(aes(col, row,
+             fill = numFmt,
+             alpha = is.na(content))) +
+  geom_tile() +
+  scale_y_reverse() +
+  scale_alpha_manual(values = c(1, .5)) +
+  theme(legend.position = "bottom")
 ```
 
-![](README-unnamed-chunk-2-1.png)
+![](README-unnamed-chunk-2-1.png)![](README-unnamed-chunk-2-2.png)
