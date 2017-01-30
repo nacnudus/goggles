@@ -28,3 +28,21 @@ This is basically a thin wrapper around
 [`tidyxl`](https://github.com/nacnudus/tidyxl) and
 [`unpivotr`](https://github.com/nacnudus/unpivotr) that plots cells in their
 positions and colours them by some property, e.g. number format.
+
+```{r, echo = TRUE}
+library(tidyxl)
+library(tidyverse)
+
+x <- tidy_xlsx(system.file("extdata/road-policing-driver-offence-data-jan2009-sep2006.xlsx",
+                           package = "nzpullover"))
+
+redlight <- x$data[["Red Light"]]
+redlight$numFmt <- x$formats$local$numFmt[redlight$local_format_id]
+
+ggplot(redlight, aes(col, row,
+           colour = numFmt,
+           alpha = is.na(content))) +
+geom_point() +
+scale_y_reverse() +
+scale_alpha_manual(values = c(1, .5))
+```
