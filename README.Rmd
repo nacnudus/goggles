@@ -29,7 +29,7 @@ This is basically a thin wrapper around
 [`unpivotr`](https://github.com/nacnudus/unpivotr) that plots cells in their
 positions and colours them by some property, e.g. number format.
 
-```{r, echo = TRUE}
+```{r, echo = TRUE, fig.width = 9}
 library(tidyxl)
 library(tidyverse)
 
