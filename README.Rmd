@@ -34,29 +34,26 @@ This is basically a thin wrapper around
 positions and colours them by some property, e.g. number format.
 
 ```{r, echo = TRUE, fig.width = 9, fig.show = "hold"}
-library(tidyxl)
 library(tidyverse)
+library(tidyxl)
+library(goggles)
 
-x <- tidy_xlsx(system.file("extdata/road-policing-driver-offence-data-jan2009-sep2006.xlsx",
-                           package = "nzpullover"))
+filepath = system.file("extdata/road-policing-driver-offence-data-jan2009-sep2006.xlsx",
+                       package = "goggles")
+cells <- xlsx_cells(filepath)
+formats <- xlsx_formats(filepath)
+sheets <- xlsx_sheet_names(filepath)
 
-redlight <- x$data[["Red Light"]]
-redlight$numFmt <- x$formats$local$numFmt[redlight$local_format_id]
+alcdrug <- filter(cells, sheet == sheets[9])
+alcdrug$numFmt <- formats$local$numFmt[alcdrug$local_format_id]
 
-ggplot(x$data[[4]], aes(col, row,
-           fill = data_type,
-           alpha = is.na(content))) +
-geom_tile() +
-scale_y_reverse() +
-scale_alpha_manual(values = c(1, .5)) +
+ggplot(alcdrug, aes(col, row, fill = data_type, alpha = is_blank)) +
+  geom_tile() +
+  scale_y_reverse() +
+  scale_alpha_manual(values = c(1, .5)) +
   theme(legend.position = "bottom")
 
-numFmts <- x$formats$local$numFmt
-x$data[[4]] %>%
-  mutate(numFmt = numFmts[local_format_id]) %>%
-  ggplot(aes(col, row,
-             fill = numFmt,
-             alpha = is.na(content))) +
+ggplot(alcdrug, aes(col, row, fill = numFmt, alpha = is_blank)) +
   geom_tile() +
   scale_y_reverse() +
   scale_alpha_manual(values = c(1, .5)) +
