@@ -13,38 +13,26 @@ Spreadsheets are notoriously helpful in converting numbers to dates. Humans are 
 This is basically a thin wrapper around [`tidyxl`](https://github.com/nacnudus/tidyxl) and [`unpivotr`](https://github.com/nacnudus/unpivotr) that plots cells in their positions and colours them by some property, e.g. number format.
 
 ``` r
-library(tidyxl)
 library(tidyverse)
-#> Loading tidyverse: ggplot2
-#> Loading tidyverse: tibble
-#> Loading tidyverse: tidyr
-#> Loading tidyverse: readr
-#> Loading tidyverse: purrr
-#> Loading tidyverse: dplyr
-#> Conflicts with tidy packages ----------------------------------------------
-#> filter(): dplyr, stats
-#> lag():    dplyr, stats
+library(tidyxl)
+library(goggles)
 
-x <- tidy_xlsx(system.file("extdata/road-policing-driver-offence-data-jan2009-sep2006.xlsx",
-                           package = "nzpullover"))
+filepath = system.file("extdata/road-policing-driver-offence-data-jan2009-sep2006.xlsx",
+                       package = "goggles")
+cells <- xlsx_cells(filepath)
+formats <- xlsx_formats(filepath)
+sheets <- xlsx_sheet_names(filepath)
 
-redlight <- x$data[["Red Light"]]
-redlight$numFmt <- x$formats$local$numFmt[redlight$local_format_id]
+alcdrug <- filter(cells, sheet == sheets[9])
+alcdrug$numFmt <- formats$local$numFmt[alcdrug$local_format_id]
 
-ggplot(x$data[[4]], aes(col, row,
-           fill = data_type,
-           alpha = is.na(content))) +
-geom_tile() +
-scale_y_reverse() +
-scale_alpha_manual(values = c(1, .5)) +
+ggplot(alcdrug, aes(col, row, fill = data_type, alpha = is_blank)) +
+  geom_tile() +
+  scale_y_reverse() +
+  scale_alpha_manual(values = c(1, .5)) +
   theme(legend.position = "bottom")
 
-numFmts <- x$formats$local$numFmt
-x$data[[4]] %>%
-  mutate(numFmt = numFmts[local_format_id]) %>%
-  ggplot(aes(col, row,
-             fill = numFmt,
-             alpha = is.na(content))) +
+ggplot(alcdrug, aes(col, row, fill = numFmt, alpha = is_blank)) +
   geom_tile() +
   scale_y_reverse() +
   scale_alpha_manual(values = c(1, .5)) +
@@ -52,3 +40,21 @@ x$data[[4]] %>%
 ```
 
 ![](README-unnamed-chunk-2-1.png)![](README-unnamed-chunk-2-2.png)
+
+### CSV code injection
+
+<!--html_preserve-->
+{{&lt; tweet 921724929535545344 &gt;}}<!--/html_preserve-->
+
+Check for executable system calls by parsing formulas with `tidyxl::xlex()`. Such calls are known as 'DDE calls'.
+
+``` r
+tidyxl::xlex("=2+5+cmd|' /C calc'!A0")
+#> root                   
+#> ¦-- =                  operator
+#> ¦-- 2                  number
+#> ¦-- +                  operator
+#> ¦-- 5                  number
+#> ¦-- +                  operator
+#> °-- cmd|' /C calc'!A0  DDE
+```

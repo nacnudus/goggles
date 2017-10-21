@@ -59,3 +59,14 @@ ggplot(alcdrug, aes(col, row, fill = numFmt, alpha = is_blank)) +
   scale_alpha_manual(values = c(1, .5)) +
   theme(legend.position = "bottom")
 ```
+
+### CSV code injection
+
+`r htmltools::HTML("{{< tweet 921724929535545344 >}}")`
+
+Check for executable system calls by parsing formulas with `tidyxl::xlex()`.
+Such calls are known as 'DDE calls'.
+
+```{r}
+tidyxl::xlex("=2+5+cmd|' /C calc'!A0")
+```
