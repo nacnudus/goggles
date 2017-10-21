@@ -43,8 +43,7 @@ ggplot(alcdrug, aes(col, row, fill = numFmt, alpha = is_blank)) +
 
 ### CSV code injection
 
-<!--html_preserve-->
-{{&lt; tweet 921724929535545344 &gt;}}<!--/html_preserve-->
+Excel formulas can call other programs in the system (via [article](http://georgemauer.net/2017/10/07/csv-injection.html), [tweet](https://twitter.com/_ColinFay/status/921724929535545344)). This even works on formulas in CSV files.
 
 Check for executable system calls by parsing formulas with `tidyxl::xlex()`. Such calls are known as 'DDE calls'.
 
